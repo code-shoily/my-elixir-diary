@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>Day 0 - Unboxing and Exploration &middot; My Elixir Diary</title>
+    <meta name="author" content="Mafinar Khan">
+    <meta name="description" content="Learning as I write this.">
+    <meta name="generator" content="Hugo 0.16-DEV" />
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <!-- RSS autodiscovery -->
+    
+
+    <link rel="shortcut icon" href="http://elixir-diary.mafinar.com/img/favicon.ico">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/2.1.2/normalize.min.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="http://elixir-diary.mafinar.com/css/screen.css">
+    <link rel="stylesheet" href="http://elixir-diary.mafinar.com/css/github.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/railscasts.min.css">
+
+    <!-- Stylesheet for theme color -->
+    <style type="text/css">
+    a, a:visited {color: #2c3e50;}
+    .pagination a {color: #2c3e50;}
+    .gist .gist-file .gist-meta a:visited {color: #2c3e50 !important;}
+    a:focus, a:hover {color: #2980b9;}
+    h1.post-title a:focus, h1.post-title a:hover, h1.blog-title a:focus, h1.blog-title a:hover {color: #2980b9;}
+    .older-posts:hover, .newer-posts:hover {color: #2980b9;}
+</style>
+</head>
+
+<body class="post-template">
+
+    <header id="site-head">
+	
+	<h1 class="blog-title"><a href="http://elixir-diary.mafinar.com/">My Elixir Diary</a></h1>
+	
+	
+	<h1 class="blog-subtitle">Learning as I write this&hellip;</h1>
+	
+</header>
+    
+<nav class="menu" role="nav">
+    <ul>
+        
+        	<li class="nav nav-current"><a href="/pages/links/">Links</a></li>
+      	
+        	<li class="nav nav-current"><a href="/pages/about/">Me</a></li>
+      	
+        	<li class="nav nav-current"><a href="/pages/meta/">Meta</a></li>
+      	
+        	<li class="nav nav-current"><a href="/pages/hello/">This</a></li>
+      	
+    </ul>
+</nav>
+
+
+    <main class="content" role="main">
+	    <article class="post">
+	        <header>
+	        <h1 class="post-title">Day 0 - Unboxing and Exploration</h1>
+	        <div class="post-meta"><time datetime="27 June 2016">27 June 2016</time></div>
+	        </header>
+
+	        <section class="post-content">
+	            
+
+<h2 id="get-set-go">Get, Set, Go!!!</h2>
+
+<p>Obviously the first thing I need to do is, to unbox the goodies. For me, it&rsquo;s just <code>brew install elixir</code> and that&rsquo;s it. I will try out my Linux machine tomorrow. Moving on&hellip;</p>
+
+<h3 id="the-editor">The Editor</h3>
+
+<p>Vim&rsquo;s been good to me for the past decade and I see no reason why I should not use it. A quick googling introduced me to <a href="https://github.com/slashmili/alchemist.vim">alchemist.vim</a> and <a href="https://github.com/elixir-lang/vim-elixir">vim-elixir</a>. I&rsquo;m guessing the former does autocompletion and stuff while the latter is for syntax highlighting.</p>
+
+<p>I&rsquo;m also liking Visual Studio Code a lot these days so might as well go and set it up too. I think the command I&rsquo;m looking for is <code>ext install vscode-elixir</code>. Done. Though I don&rsquo;t think I&rsquo;ll be using the editor much today.</p>
+
+<h3 id="the-shell">The Shell</h3>
+
+<p>Here&rsquo;s the fun part. I like languages with REPLs, and those that encourage the use of it by giving some nice helpers built-in. After firing up the <code>iex</code> command, it seems to me that Elixir has awesome support for it. Just go ahead and try typing <code>h()</code> in the shell and you&rsquo;ll see what I mean.</p>
+
+<p>One thing I noticed is the naming of the form <code>xxx/n</code> (i.e. <code>pwd/0</code>, <code>r/1</code>). A quick googling later, I see it&rsquo;s a function/arity pair Erlang guys use. <strong>Does that mean no variadic argument for Elixir?</strong></p>
+
+<p>Anyway, one of the things we Pythonistas are used to is the <code>help()</code> and <code>dir()</code> functions. Is there a way to do it in Elixir? The <code>h/0</code> and <code>h/1</code> are your friends for the former, and <em>dot(.) + TAB</em> for the latter. So, if I do a <code>h(List)</code> (or <code>h List</code>) in the shell, then I&rsquo;d see good old documentation of <code>List</code>. Parentheses are optional for function calls, a little Ruby envy I always had. Awesome! But I still need to explore if I can get a list of methods of a particular module (That&rsquo;s what they call it?) like Python does with <code>dir()</code>. I can get it by <code>&lt;module&gt;.__info__(:functions)</code> expression. Let&rsquo;s try: <code>List.__info__(:functions)</code>. Like a charm.</p>
+
+<p>How do I get out? <code>CTRL+C</code> does it for Elixir shell. That&rsquo;s exit!</p>
+
+<h3 id="exploration">Exploration</h3>
+
+<p>This is where I fire up the shell and start playing. The first thing I need to see is how I get to assign stuff. That&rsquo;s easy, just do a <code>variable_name = value</code>. No <code>let</code>, <code>var</code>, <code>val</code> etc. Since Elixir is a functional programming language, the first thing I&rsquo;d look for is, well, functions? Let&rsquo;s see,</p>
+
+<pre><code class="language-elixir">odd? = fn(n) -&gt; rem(n, 2) == 1 end
+even? = fn n -&gt; not odd?.(n)
+
+IO.puts odd?.(11) #=&gt; true
+IO.puts even?.(11) #=&gt; false
+</code></pre>
+
+<p>Despite knowing it, I did end up calling the function as <code>odd?(11)</code>. It seems that Elixir anonymous functions need a <code>.()</code> for the arguments to be applied. True and False are just true/false. There&rsquo;s a convenient shortcut for it too:</p>
+
+<pre><code class="language-elixir">odd? = &amp;(rem(&amp;1, 2) == 1)
+event? = &amp;(not odd?.(&amp;1))
+right_triangle? = &amp;(&amp;1*&amp;1 == &amp;2*&amp;2 + &amp;3*&amp;3)
+</code></pre>
+
+<p>Sort of like Clojure&rsquo;s <code>#(odd? %1)</code>. Convenient. But how do I make stuff that I can call without the parenthesis? Define a named function inside a module:</p>
+
+<pre><code class="language-elixir">defmodule OddEven do
+    def odd? n do
+        rem(n, 2) == 1
+    end
+
+    def even? n do
+        not odd? n
+    end
+end
+</code></pre>
+
+<p>Oh, and comments begin <code># with a hash</code></p>
+
+<p>It is a common syntax pattern of Elixir to have constructs like <code>&lt;something&gt; &lt;expression&gt; do &lt;body&gt; end</code> it seems. Let&rsquo;s take a look at <code>if</code>:</p>
+
+<pre><code class="language-elixir">defmodule LeapYear do
+    def leap_year? year do
+        if rem(n, 400) == 0 do
+            return true
+        end
+        if rem(n, 100) == 0 do
+            return false
+        end
+        if rem(n, 4) == 0 do
+            return true
+        end
+
+        false
+    end
+end
+</code></pre>
+
+<p>See what I mean? But Elixir is a very pattern-happy language, so there&rsquo;s another way of doing it:</p>
+
+<pre><code class="language-elixir">defmodule LeapYear do
+    def leap_year?(year) when rem(year, 400) == 0 do
+        true
+    end
+    def leap_year?(year) when rem(year, 100) == 0 do
+        false
+    end
+    def leap_year?(year) when rem(year, 4) == 0 do
+        true
+    end
+    def leap_year? year do
+        false
+    end
+end
+</code></pre>
+
+<p>It&rsquo;s like those piecewise defined functions we did at school.</p>
+
+<p>We skimmed <code>conditions</code>, let&rsquo;s <code>loop</code>. I didn&rsquo;t see any C-style <code>for</code> equivalent yet. And I&rsquo;m not supposed to since Elixir doesn&rsquo;t mutate things. Instead I get recursion:</p>
+
+<pre><code class="language-elixir">defmodule Fibonacci do
+    def compute n do
+        if n &lt;= 1 do
+            n
+        else
+            compute(n - 1) + compute(n - 2)
+        end
+    end
+
+    def range n do
+        for i &lt;- 1..n do
+            compute(i)
+        end
+    end
+end
+</code></pre>
+
+<p>So we have a <code>foreach</code>-ish construct. It&rsquo;s called comprehension and is better viewed as <code>for i &lt;- &lt;range&gt; do: ...</code>. The <code>something do body end</code>-s have a short form of <code>something, do: ...</code> it seems. And instead of the <code>if</code> as base case in <code>compute</code>, could we instead use that piecewise defined thingy?</p>
+
+<pre><code class="language-elixir">defmodule Fibonacci do
+    def compute(n) when n &lt;= 1 do
+        n
+    end
+
+    def compute(n) do
+        compute(n - 1) + compute(n - 2)
+    end
+
+    def range(n) do
+        for i &lt;- 1..n, do: compute i
+    end
+end
+</code></pre>
+
+<p>An interesting thing about for comprehensions is that you can put conditions in the comma separated values, or multiple iterations too, take for example, this one:</p>
+
+<pre><code class="language-elixir"># Can you tell me what this yields?
+triplets = for a &lt;- 1..10, b &lt;- 1..10, c &lt;- 1..10, c*c = a*a + b*b, do: {a, b, c}
+</code></pre>
+
+<p>This brings us to composite types. It&rsquo;s safe to assume that List and Map types exist. And there&rsquo;s a Tuple too. There&rsquo;s more, obviously.</p>
+
+<pre><code class="language-elixir"># Lists
+lost_numbers = [4, 8, 15, 16, 23, 42]
+Enum.at(lost_numbers, 0) #=&gt; 4
+Enum.map(lost_numbers, fn n -&gt; n*n end) #=&gt; Square each of lost numbers
+Enum.reduce(lost_numbers, &amp;(&amp;1 + &amp;2)) #=&gt; Find the sum of lost numbers
+42 in lost_numbers #=&gt; true
+
+# MAPS
+lost_candidates = %{
+    4 =&gt; &quot;Locke&quot;,
+    8 =&gt; &quot;Hugo&quot;,
+    15 =&gt; &quot;Sawyer&quot;,
+    16 =&gt; &quot;Sayid&quot;,
+    23 =&gt; &quot;Jack&quot;,
+    42 =&gt; &quot;Kwon&quot;,
+}
+
+Dict.keys(lost_candidates) == lost_numbers #=&gt; true
+Dict.values(lost_candidates) #=&gt; [&quot;Locke&quot;, &quot;Hugo&quot;, &quot;Sawyer&quot;, &quot;Sayid&quot;, &quot;Jack&quot;, &quot;Kwon&quot;]
+Dict.put(lost_candidates, 47, &quot;Mafinar&quot;) #=&gt; Returns a new Dict with me with number 47
+Dict.get(lost_candidates, 4) #=&gt; &quot;Locke&quot;
+lost_candidates[23] #=&gt; &quot;Jack&quot;
+</code></pre>
+
+<p>Looks to me like Elixir calls module functions a lot. It&rsquo;s not <code>lost_candidates.keys</code> but <code>Dict.keys lost_candidates</code>, not <code>lost_numbers.at(0)</code> but <code>Enum.at lost_numbers, 0</code>. The first argument being lost_numbers can have an important impact:</p>
+
+<pre><code class="language-elixir"># Square the lost_numbers, then find the odd ones, then spit out the product.
+square = fn n -&gt; n*n end
+odd? = fn n -&gt; rem(n, 2) == 1 end
+product = fn a, b -&gt; a * b end
+
+Enum.reduce(Enum.filter(Enum.map(lost_numbers, square), odd?), product)
+</code></pre>
+
+<p>So, the <code>map</code> gives out the squared numbers, and feeds it as the first argument to the <code>filter</code>, which in turn spits the odd numbers and becomes the first argument of the <code>reduce</code> function. Instead, why not do a pipe? Remember those UNIX <code>|</code> constructs?</p>
+
+<pre><code class="language-elixir">square = fn n -&gt; n*n end
+odd? = fn n -&gt; rem(n, 2) == 1 end
+product = fn a, b -&gt; a * b end
+
+lost_numbers |&gt; Enum.map(square) |&gt; Enum.filter(odd?) |&gt; Enum.reduce(product)
+</code></pre>
+
+<p>I have always loved Clojure&rsquo;s threading macros. Looks like Elixir has one too. And it looks awesome with Firacode ligatures!</p>
+
+<p>I must admit, I was a little confused with some of the Map examples I saw, <code>%{ 2 =&gt; &quot;Two&quot;}</code> works but <code>%{2: &quot;Two&quot;}</code> spits out an error. And what&rsquo;s with this <code>[:x 25, :y 30]</code> thingy? Looks like I need to inspect the APIs better and get a good understanding of Atoms and Tuples.</p>
+
+<h2 id="okay-then">Okay then</h2>
+
+<p>This was just random scribbles on my part, hence the <em>day 0</em> bit. I just wanted to do a quick run down on Elixir and see how things fall and write-up whatever came out. And I must say, Elixir seems to have potential of being a super fun language. So far, it seemed braing and sanity friendly to me. And I find the code beautiful too. I&rsquo;m glad I took it.</p>
+
+<p>I am tired right now. That&rsquo;s all exploration for me that I&rsquo;d write about. I&rsquo;ll just go and explore more (i.e string, structs etc) on my own and share it tomorrow?</p>
+
+	        </section>
+
+	        <section class="post-tags" style="padding-bottom:60px;">
+	            <div class="post-meta tags">
+	            <i class="fa fa-fw fa-tag"></i>
+	            
+	            </div>
+	        </section>
+			
+			
+	        	<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'codeshoily';
+    var disqus_identifier = 'http:\/\/elixir-diary.mafinar.com\/post\/day-0\/';
+    var disqus_title = 'Day 0 - Unboxing and Exploration';
+    var disqus_url = 'http:\/\/elixir-diary.mafinar.com\/post\/day-0\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	        
+			
+			
+
+	        <section class="share">
+	            <p class="backtotop"><a data-scroll href="#site-head"><i class="fa fa-lg fa-fw fa-angle-double-up"></i></a><a data-scroll class="backtotoptext" href="#site-head"> Back to top</a></p>
+	            <p class="info prompt">Share</p>
+	            <a href="http://twitter.com/share?text=Day%200%20-%20Unboxing%20and%20Exploration&url=http%3a%2f%2felixir-diary.mafinar.com%2fpost%2fday-0%2f" title="Share on Twitter"
+	                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+	                <i class="fa fa-2x fa-fw fa-twitter-square"></i> <span class="hidden">Twitter</span>
+	            </a>
+	            <a href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2felixir-diary.mafinar.com%2fpost%2fday-0%2f" title="Share on Facebook"
+	                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+	                <i class="fa fa-2x fa-fw fa-facebook-square" style="margin-left: -8px"></i> <span class="hidden">Facebook</span>
+	            </a>
+	            <a href="https://plus.google.com/share?url=http%3a%2f%2felixir-diary.mafinar.com%2fpost%2fday-0%2f" title="Share on Google+"
+	               onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+	                <i class="fa fa-2x fa-fw fa-google-plus-square" style="margin-left: -8px"></i> <span class="hidden">Google+</span>
+	            </a>
+	        </section>
+
+	        <footer class="post-footer">
+	            <section class="author">
+    <div class="authorimage" style="background: url(http://elixir-diary.mafinar.com/img/avatar.jpg)"></div>
+    <h4>Mafinar Khan</h4>
+    <p class="bio">Father. Coder. Foodie.</p>
+    <p class="meta">
+      <i class="fa fa-fw fa-map-marker"></i> Dhaka, Bangladesh
+    </p>
+</section>
+	        </footer>
+	    </article>
+	</main>
+
+    <footer class="site-footer">
+	<div class="inner">
+		<section class="footer-social">
+			
+		    <a href="//twitter.com/mafinar" target="_blank" title="Twitter"><i class="fa fa-2x fa-fw fa-twitter"></i> <span class="hidden">Twitter</span></a>&nbsp;
+		    
+		    
+		    <a href="//github.com/code-shoily" target="_blank" title="GitHub"><i class="fa fa-2x fa-fw fa-github"></i> <span class="hidden">GitHub</span></a>&nbsp;
+		    
+		    <a href="" target="_blank" title="RSS"><i class="fa fa-2x fa-fw fa-rss"></i> <span class="hidden">RSS</span></a>
+		</section>
+
+		<section class="copyright">&copy; 2016 <a href="http://elixir-diary.mafinar.com/">Mafinar Khan</a>. Zero Rights Reserved</section>
+	</div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://elixir-diary.mafinar.com/js/index.js"></script>
+<script src="http://elixir-diary.mafinar.com/js/smooth-scroll.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+
+<script>
+    smoothScroll.init({
+        speed: 800,
+        easing: 'easeInOutCubic',
+        updateURL: false,
+        offset: 125,
+    });
+</script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+</body>
+</html>

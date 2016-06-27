@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on My Elixir Diary</title>
+    <link>http://elixir-diary.mafinar.com/post/</link>
+    <description>Recent content in Posts on My Elixir Diary</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 27 Jun 2016 10:29:32 +0600</lastBuildDate>
+    <atom:link href="http://elixir-diary.mafinar.com/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Day 0 - Unboxing and Exploration</title>
+      <link>http://elixir-diary.mafinar.com/post/day-0/</link>
+      <pubDate>Mon, 27 Jun 2016 10:29:32 +0600</pubDate>
+      
+      <guid>http://elixir-diary.mafinar.com/post/day-0/</guid>
+      <description>
+
+&lt;h2 id=&#34;get-set-go&#34;&gt;Get, Set, Go!!!&lt;/h2&gt;
+
+&lt;p&gt;Obviously the first thing I need to do is, to unbox the goodies. For me, it&amp;rsquo;s just &lt;code&gt;brew install elixir&lt;/code&gt; and that&amp;rsquo;s it. I will try out my Linux machine tomorrow. Moving on&amp;hellip;&lt;/p&gt;
+
+&lt;h3 id=&#34;the-editor&#34;&gt;The Editor&lt;/h3&gt;
+
+&lt;p&gt;Vim&amp;rsquo;s been good to me for the past decade and I see no reason why I should not use it. A quick googling introduced me to &lt;a href=&#34;https://github.com/slashmili/alchemist.vim&#34;&gt;alchemist.vim&lt;/a&gt; and &lt;a href=&#34;https://github.com/elixir-lang/vim-elixir&#34;&gt;vim-elixir&lt;/a&gt;. I&amp;rsquo;m guessing the former does autocompletion and stuff while the latter is for syntax highlighting.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m also liking Visual Studio Code a lot these days so might as well go and set it up too. I think the command I&amp;rsquo;m looking for is &lt;code&gt;ext install vscode-elixir&lt;/code&gt;. Done. Though I don&amp;rsquo;t think I&amp;rsquo;ll be using the editor much today.&lt;/p&gt;
+
+&lt;h3 id=&#34;the-shell&#34;&gt;The Shell&lt;/h3&gt;
+
+&lt;p&gt;Here&amp;rsquo;s the fun part. I like languages with REPLs, and those that encourage the use of it by giving some nice helpers built-in. After firing up the &lt;code&gt;iex&lt;/code&gt; command, it seems to me that Elixir has awesome support for it. Just go ahead and try typing &lt;code&gt;h()&lt;/code&gt; in the shell and you&amp;rsquo;ll see what I mean.&lt;/p&gt;
+
+&lt;p&gt;One thing I noticed is the naming of the form &lt;code&gt;xxx/n&lt;/code&gt; (i.e. &lt;code&gt;pwd/0&lt;/code&gt;, &lt;code&gt;r/1&lt;/code&gt;). A quick googling later, I see it&amp;rsquo;s a function/arity pair Erlang guys use. &lt;strong&gt;Does that mean no variadic argument for Elixir?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Anyway, one of the things we Pythonistas are used to is the &lt;code&gt;help()&lt;/code&gt; and &lt;code&gt;dir()&lt;/code&gt; functions. Is there a way to do it in Elixir? The &lt;code&gt;h/0&lt;/code&gt; and &lt;code&gt;h/1&lt;/code&gt; are your friends for the former, and &lt;em&gt;dot(.) + TAB&lt;/em&gt; for the latter. So, if I do a &lt;code&gt;h(List)&lt;/code&gt; (or &lt;code&gt;h List&lt;/code&gt;) in the shell, then I&amp;rsquo;d see good old documentation of &lt;code&gt;List&lt;/code&gt;. Parentheses are optional for function calls, a little Ruby envy I always had. Awesome! But I still need to explore if I can get a list of methods of a particular module (That&amp;rsquo;s what they call it?) like Python does with &lt;code&gt;dir()&lt;/code&gt;. I can get it by &lt;code&gt;&amp;lt;module&amp;gt;.__info__(:functions)&lt;/code&gt; expression. Let&amp;rsquo;s try: &lt;code&gt;List.__info__(:functions)&lt;/code&gt;. Like a charm.&lt;/p&gt;
+
+&lt;p&gt;How do I get out? &lt;code&gt;CTRL+C&lt;/code&gt; does it for Elixir shell. That&amp;rsquo;s exit!&lt;/p&gt;
+
+&lt;h3 id=&#34;exploration&#34;&gt;Exploration&lt;/h3&gt;
+
+&lt;p&gt;This is where I fire up the shell and start playing. The first thing I need to see is how I get to assign stuff. That&amp;rsquo;s easy, just do a &lt;code&gt;variable_name = value&lt;/code&gt;. No &lt;code&gt;let&lt;/code&gt;, &lt;code&gt;var&lt;/code&gt;, &lt;code&gt;val&lt;/code&gt; etc. Since Elixir is a functional programming language, the first thing I&amp;rsquo;d look for is, well, functions? Let&amp;rsquo;s see,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-elixir&#34;&gt;odd? = fn(n) -&amp;gt; rem(n, 2) == 1 end
+even? = fn n -&amp;gt; not odd?.(n)
+
+IO.puts odd?.(11) #=&amp;gt; true
+IO.puts even?.(11) #=&amp;gt; false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Despite knowing it, I did end up calling the function as &lt;code&gt;odd?(11)&lt;/code&gt;. It seems that Elixir anonymous functions need a &lt;code&gt;.()&lt;/code&gt; for the arguments to be applied. True and False are just true/false. There&amp;rsquo;s a convenient shortcut for it too:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-elixir&#34;&gt;odd? = &amp;amp;(rem(&amp;amp;1, 2) == 1)
+event? = &amp;amp;(not odd?.(&amp;amp;1))
+right_triangle? = &amp;amp;(&amp;amp;1*&amp;amp;1 == &amp;amp;2*&amp;amp;2 + &amp;amp;3*&amp;amp;3)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Sort of like Clojure&amp;rsquo;s &lt;code&gt;#(odd? %1)&lt;/code&gt;. Convenient. But how do I make stuff that I can call without the parenthesis? Define a named function inside a module:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-elixir&#34;&gt;defmodule OddEven do
+    def odd? n do
+        rem(n, 2) == 1
+    end
+
+    def even? n do
+        not odd? n
+    end
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Oh, and comments begin &lt;code&gt;# with a hash&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;It is a common syntax pattern of Elixir to have constructs like &lt;code&gt;&amp;lt;something&amp;gt; &amp;lt;expression&amp;gt; do &amp;lt;body&amp;gt; end&lt;/code&gt; it seems. Let&amp;rsquo;s take a look at &lt;code&gt;if&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-elixir&#34;&gt;defmodule LeapYear do
+    def leap_year? year do
+        if rem(n, 400) == 0 do
+            return true
+        end
+        if rem(n, 100) == 0 do
+            return false
+        end
+        if rem(n, 4) == 0 do
+            return true
+        end
+
+        false
+    end
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;See what I mean? But Elixir is a very pattern-happy language, so there&amp;rsquo;s another way of doing it:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-elixir&#34;&gt;defmodule LeapYear do
+    def leap_year?(year) when rem(year, 400) == 0 do
+        true
+    end
+    def leap_year?(year) when rem(year, 100) == 0 do
+        false
+    end
+    def leap_year?(year) when rem(year, 4) == 0 do
+        true
+    end
+    def leap_year? year do
+        false
+    end
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It&amp;rsquo;s like those piecewise defined functions we did at school.&lt;/p&gt;
+
+&lt;p&gt;We skimmed &lt;code&gt;conditions&lt;/code&gt;, let&amp;rsquo;s &lt;code&gt;loop&lt;/code&gt;. I didn&amp;rsquo;t see any C-style &lt;code&gt;for&lt;/code&gt; equivalent yet. And I&amp;rsquo;m not supposed to since Elixir doesn&amp;rsquo;t mutate things. Instead I get recursion:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-elixir&#34;&gt;defmodule Fibonacci do
+    def compute n do
+        if n &amp;lt;= 1 do
+            n
+        else
+            compute(n - 1) + compute(n - 2)
+        end
+    end
+
+    def range n do
+        for i &amp;lt;- 1..n do
+            compute(i)
+        end
+    end
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So we have a &lt;code&gt;foreach&lt;/code&gt;-ish construct. It&amp;rsquo;s called comprehension and is better viewed as &lt;code&gt;for i &amp;lt;- &amp;lt;range&amp;gt; do: ...&lt;/code&gt;. The &lt;code&gt;something do body end&lt;/code&gt;-s have a short form of &lt;code&gt;something, do: ...&lt;/code&gt; it seems. And instead of the &lt;code&gt;if&lt;/code&gt; as base case in &lt;code&gt;compute&lt;/code&gt;, could we instead use that piecewise defined thingy?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-elixir&#34;&gt;defmodule Fibonacci do
+    def compute(n) when n &amp;lt;= 1 do
+        n
+    end
+
+    def compute(n) do
+        compute(n - 1) + compute(n - 2)
+    end
+
+    def range(n) do
+        for i &amp;lt;- 1..n, do: compute i
+    end
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;An interesting thing about for comprehensions is that you can put conditions in the comma separated values, or multiple iterations too, take for example, this one:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-elixir&#34;&gt;# Can you tell me what this yields?
+triplets = for a &amp;lt;- 1..10, b &amp;lt;- 1..10, c &amp;lt;- 1..10, c*c = a*a + b*b, do: {a, b, c}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This brings us to composite types. It&amp;rsquo;s safe to assume that List and Map types exist. And there&amp;rsquo;s a Tuple too. There&amp;rsquo;s more, obviously.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-elixir&#34;&gt;# Lists
+lost_numbers = [4, 8, 15, 16, 23, 42]
+Enum.at(lost_numbers, 0) #=&amp;gt; 4
+Enum.map(lost_numbers, fn n -&amp;gt; n*n end) #=&amp;gt; Square each of lost numbers
+Enum.reduce(lost_numbers, &amp;amp;(&amp;amp;1 + &amp;amp;2)) #=&amp;gt; Find the sum of lost numbers
+42 in lost_numbers #=&amp;gt; true
+
+# MAPS
+lost_candidates = %{
+    4 =&amp;gt; &amp;quot;Locke&amp;quot;,
+    8 =&amp;gt; &amp;quot;Hugo&amp;quot;,
+    15 =&amp;gt; &amp;quot;Sawyer&amp;quot;,
+    16 =&amp;gt; &amp;quot;Sayid&amp;quot;,
+    23 =&amp;gt; &amp;quot;Jack&amp;quot;,
+    42 =&amp;gt; &amp;quot;Kwon&amp;quot;,
+}
+
+Dict.keys(lost_candidates) == lost_numbers #=&amp;gt; true
+Dict.values(lost_candidates) #=&amp;gt; [&amp;quot;Locke&amp;quot;, &amp;quot;Hugo&amp;quot;, &amp;quot;Sawyer&amp;quot;, &amp;quot;Sayid&amp;quot;, &amp;quot;Jack&amp;quot;, &amp;quot;Kwon&amp;quot;]
+Dict.put(lost_candidates, 47, &amp;quot;Mafinar&amp;quot;) #=&amp;gt; Returns a new Dict with me with number 47
+Dict.get(lost_candidates, 4) #=&amp;gt; &amp;quot;Locke&amp;quot;
+lost_candidates[23] #=&amp;gt; &amp;quot;Jack&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Looks to me like Elixir calls module functions a lot. It&amp;rsquo;s not &lt;code&gt;lost_candidates.keys&lt;/code&gt; but &lt;code&gt;Dict.keys lost_candidates&lt;/code&gt;, not &lt;code&gt;lost_numbers.at(0)&lt;/code&gt; but &lt;code&gt;Enum.at lost_numbers, 0&lt;/code&gt;. The first argument being lost_numbers can have an important impact:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-elixir&#34;&gt;# Square the lost_numbers, then find the odd ones, then spit out the product.
+square = fn n -&amp;gt; n*n end
+odd? = fn n -&amp;gt; rem(n, 2) == 1 end
+product = fn a, b -&amp;gt; a * b end
+
+Enum.reduce(Enum.filter(Enum.map(lost_numbers, square), odd?), product)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So, the &lt;code&gt;map&lt;/code&gt; gives out the squared numbers, and feeds it as the first argument to the &lt;code&gt;filter&lt;/code&gt;, which in turn spits the odd numbers and becomes the first argument of the &lt;code&gt;reduce&lt;/code&gt; function. Instead, why not do a pipe? Remember those UNIX &lt;code&gt;|&lt;/code&gt; constructs?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-elixir&#34;&gt;square = fn n -&amp;gt; n*n end
+odd? = fn n -&amp;gt; rem(n, 2) == 1 end
+product = fn a, b -&amp;gt; a * b end
+
+lost_numbers |&amp;gt; Enum.map(square) |&amp;gt; Enum.filter(odd?) |&amp;gt; Enum.reduce(product)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I have always loved Clojure&amp;rsquo;s threading macros. Looks like Elixir has one too. And it looks awesome with Firacode ligatures!&lt;/p&gt;
+
+&lt;p&gt;I must admit, I was a little confused with some of the Map examples I saw, &lt;code&gt;%{ 2 =&amp;gt; &amp;quot;Two&amp;quot;}&lt;/code&gt; works but &lt;code&gt;%{2: &amp;quot;Two&amp;quot;}&lt;/code&gt; spits out an error. And what&amp;rsquo;s with this &lt;code&gt;[:x 25, :y 30]&lt;/code&gt; thingy? Looks like I need to inspect the APIs better and get a good understanding of Atoms and Tuples.&lt;/p&gt;
+
+&lt;h2 id=&#34;okay-then&#34;&gt;Okay then&lt;/h2&gt;
+
+&lt;p&gt;This was just random scribbles on my part, hence the &lt;em&gt;day 0&lt;/em&gt; bit. I just wanted to do a quick run down on Elixir and see how things fall and write-up whatever came out. And I must say, Elixir seems to have potential of being a super fun language. So far, it seemed braing and sanity friendly to me. And I find the code beautiful too. I&amp;rsquo;m glad I took it.&lt;/p&gt;
+
+&lt;p&gt;I am tired right now. That&amp;rsquo;s all exploration for me that I&amp;rsquo;d write about. I&amp;rsquo;ll just go and explore more (i.e string, structs etc) on my own and share it tomorrow?&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
